@@ -1,0 +1,14 @@
+{
+	"namespace": "SorcererCharacter",
+	"displayName": "Sorcerer Character",
+	"version": "0.0.1",
+	"synchronyVersion": "3.4.1",
+	"description": "No description given.",
+	"author": "Serena",
+	"dependencies": {},
+	"api": {"scriptPath":""},
+	"icon": "SorcererCharacterIcon.png",
+	"banner": "SorcererCharacterBanner.png",
+	"tags": [],
+	"name": "SorcererCharacter"
+}
