@@ -115,7 +115,7 @@ Event.entitySchemaLoadNamedEntity.add("applyWandComponents", { key = Constants.w
                 {
                     offset = { 1, 0 },
                     swipe = (wandRange == 2 and "dagger") or nil
-                }, 
+                },
                 {
                     offset = { 2, 0 }
                 }

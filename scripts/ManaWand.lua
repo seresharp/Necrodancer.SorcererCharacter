@@ -28,6 +28,20 @@ CustomEntities.extend({
         weaponReloadable = { ammoPerReload = 0 },
         itemFlyawayOnActivation = {
             text = "Swapping Spells!"
+        },
+        sprite = {
+            width = 23,
+            height = 22,
+            texture = "mods/SorcererCharacter/sprites/mana_wand.png"
+        },
+        DynChar_dynamicItem = {
+            framesX = 4,
+            framesY = 1,
+            width = 24,
+            height = 24,
+            offsetX = 0,
+            offsetY = 0,
+            texture = "mods/SorcererCharacter/sprites/mana_wand_anim.png",
         }
     }
 })
