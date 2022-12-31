@@ -1,9 +1,9 @@
 {
 	"namespace": "SorcererCharacter",
 	"displayName": "Sorcerer Character",
-	"version": "0.1.3",
+	"version": "0.2.0",
 	"synchronyVersion": "3.4.1",
-	"description": "No description given.",
+	"description": "A character that starts with every spell (minus charm and transform), but has no weapon damage. Have fun managing all those cooldowns!",
 	"author": "Serena",
 	"dependencies": {},
 	"api": {"scriptPath":""},

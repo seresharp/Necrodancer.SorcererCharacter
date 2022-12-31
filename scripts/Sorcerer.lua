@@ -8,7 +8,7 @@ local Util = require "SorcererCharacter.scripts.Util"
 CustomEntities.extend({
     name = Constants.characterName,
     template = CustomEntities.template.player(0),
-    components = {
+    components = {{
         friendlyName = { name = "Sorcerer" },
         textCharacterSelectionMessage = { text = "Sorcerer mode!\nStart with all spells,\nbut lose other slots." },
         traitStoryBosses = { bosses = { } },
@@ -35,9 +35,43 @@ CustomEntities.extend({
         },
         extraModeDancepadGrantItems = {
             types = { "RingMana", "ArmorChainmail", "FoodMagicCarrot" }
+        },
+        sprite = {
+            texture = "mods/SorcererCharacter/sprites/sorcerer_body.png"
+        },
+        cloneSprite = {
+            texture = "mods/SorcererCharacter/sprites/sorcerer_clone.png"
+        },
+        bestiary = {
+            image = "ext/bestiary/bestiary_electricmage.png"
         }
-    }
+    },
+    {
+        sprite = {
+            texture = "mods/SorcererCharacter/sprites/sorcerer_head.png"
+        }
+    }}
 })
+
+-- Cadence voice lines sound off with the sprite I made
+-- Could inherit from bard instead, but I'd rather not make a major change like that right now
+Event.entitySchemaLoadNamedEntity.add("swapVoiceLines", { key = Constants.characterName }, function(ev)
+    if not ev or not ev.entity then return end
+    
+    for _, component in pairs(ev.entity) do
+        if type(component) == "table" and type(component.sound) == "string" and component.sound:find("^cadence") then
+            component.sound = component.sound:gsub("^cadence", "bard")
+        end
+    end
+    
+    ev.entity.voiceMeleeAttack = {
+        sounds = { "bardMelee1", "bardMelee2", "bardMelee3", "bardMelee4" }
+    }
+    ev.entity.voiceSpellCasterPrefix = {
+        fallback = "bardMelee3",
+        prefix = "bard"
+    }
+end)
 
 -- Blood magic doesn't reset cooldowns. Hopefully will make the character more fast paced
 Event.spellItemActivate.override("resetKillCooldown", { sequence = Constants.sequenceFirst }, function(func, ev)
