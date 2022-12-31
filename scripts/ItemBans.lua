@@ -27,7 +27,7 @@ Event.entitySchemaLoadEntity.add("itemBanSorcerer", { order = "finalize", sequen
         ban({ "Sync_ShieldShove" })
     end
     
-    if bannedItems[ev.entity.name] then
+    if bannedItems[ev and ev.entity and ev.entity.name] then
         ev.entity[Constants.itemBan] = { }
     end
 end)

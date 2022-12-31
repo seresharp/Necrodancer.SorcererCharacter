@@ -3,6 +3,7 @@ local CustomEntities = require "necro.game.data.CustomEntities"
 local Event = require "necro.event.Event"
 local ItemBan = require "necro.game.item.ItemBan"
 local ItemSlot = require "necro.game.item.ItemSlot"
+local Util = require "SorcererCharacter.scripts.Util"
 
 CustomEntities.extend({
     name = Constants.characterName,
@@ -40,7 +41,10 @@ CustomEntities.extend({
 
 -- Blood magic doesn't reset cooldowns. Hopefully will make the character more fast paced
 Event.spellItemActivate.override("resetKillCooldown", { sequence = Constants.sequenceFirst }, function(func, ev)
-    if ev.caster.name ~= Constants.characterName or #ev.cooldowns == 0 then
-        func(ev)
-    end
+    if not Util.checkStructure(ev, {
+        caster = {
+            name = Constants.characterName
+        },
+        cooldowns = { }
+    }) or #ev.cooldowns == 0 then func(ev) end
 end)
