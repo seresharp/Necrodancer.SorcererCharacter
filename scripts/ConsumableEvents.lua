@@ -115,7 +115,6 @@ Event.inventoryAddItem.override("dropPreviousItem", { sequence = Constants.seque
             name = Constants.characterName
         },
         item = {
-            name = "Bomb",
             itemSlot = {
                 name = ItemSlot.Type.BOMB
             }
