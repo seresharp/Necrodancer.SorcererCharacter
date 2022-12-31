@@ -48,3 +48,5 @@ Event.spellItemActivate.override("resetKillCooldown", { sequence = Constants.seq
         cooldowns = { }
     }) or #ev.cooldowns == 0 then func(ev) end
 end)
+
+Util.ItemPool.replaceItems("Sync_itemPoolSpecialOffer", { "BombInfinity", "RingMana", "RingWonder" })

@@ -21,7 +21,7 @@ Event.entitySchemaLoadEntity.add("itemBanSorcerer", { order = "finalize", sequen
         
         -- Ring bans
         ban({ "RingBecoming" })
-        ban({ "RingMana", "RingWonder" }) -- Temporary until I look into changing pools instead
+        ban({ "RingMana", "RingWonder" })
         
         -- Shield bans
         ban({ "Sync_ShieldShove" })
