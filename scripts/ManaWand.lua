@@ -203,28 +203,44 @@ Event.objectSpecialAction.add("checkWandReload", { order = "reload", sequence = 
     end
 end)
 
-Event.objectDealDamage.add("checkWandAttack", { order = "replacementEffects" }, function(ev)
+Event.weaponAttack.add("checkWandAttack", { order = "tickle" }, function(ev)
     if not Util.checkStructure(ev, {
-        isParryable = true,
         attacker = {
             inventory = { }
         },
-        victim = {
-            SorcererCharacter_wandGrantKillCredit = {
-                hit = false
-            }
+        weapon = {
+            name = Constants.wandName
+        },
+        result = {
+            success = true,
+            targets = { }
         }
-    }) or (ev.damage and ev.damage > 0) then return end
-    if not Util.checkStructure(Util.Inventory.getItemInSlot(ev.entity, ItemSlot.Type.WEAPON), { name = Constants.wandName }) then return end
+    }) then return end
     
-    for _, item in ipairs(Inventory.getItems(ev.attacker)) do
-        if item and item.spellCooldownKills and item.spellCooldownKills.remainingKills > 0 then
-            item.spellCooldownKills.remainingKills = item.spellCooldownKills.remainingKills - 1
+    local enemiesHit = 0
+    for _, target in ipairs(ev.result.targets) do
+        if Util.checkStructure(target, { victim = { SorcererCharacter_wandGrantKillCredit = { hit = false } } }) then
+            enemiesHit = enemiesHit + 1
+            target.victim.SorcererCharacter_wandGrantKillCredit.hit = true
+            Kill.disableCredit(target.victim, Kill.Credit.SPELL_COOLDOWN)
         end
     end
     
-    ev.victim.SorcererCharacter_wandGrantKillCredit.hit = true
-    Kill.disableCredit(ev.victim, Kill.Credit.SPELL_COOLDOWN)
+    local spells = { }
+    for _, item in ipairs(Inventory.getItems(ev.attacker)) do
+        if item and item.itemIncreaseKillSpellCooldownRate then
+            enemiesHit = enemiesHit * item.itemIncreaseKillSpellCooldownRate.multiplier
+        elseif item and item.spellCooldownKills and item.spellCooldownKills.remainingKills > 0 then
+            table.insert(spells, item)
+        end
+    end
+    
+    for _, spell in ipairs(spells) do
+        spell.spellCooldownKills.remainingKills = spell.spellCooldownKills.remainingKills - enemiesHit
+        if spell.spellCooldownKills.remainingKills < 0 then
+            spell.spellCooldownKills.remainingKills = 0
+        end
+    end
 end)
 
 Event.inventoryAddItem.add("checkWandPickup", { order = "collect", sequence = Constants.sequenceFirst, filter = { "SorcererCharacter_wandGrantSpellsOnPickup" }}, function(ev)
